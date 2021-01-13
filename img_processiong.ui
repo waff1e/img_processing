@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>20</y>
+      <y>310</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -31,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>20</y>
+      <y>310</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>20</y>
+      <y>310</y>
       <width>151</width>
       <height>32</height>
      </rect>
@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>20</y>
+      <y>310</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -70,7 +70,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>70</y>
+      <y>360</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>70</y>
+      <y>360</y>
       <width>121</width>
       <height>32</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>130</y>
+      <y>420</y>
       <width>141</width>
       <height>32</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>130</y>
+      <y>420</y>
       <width>131</width>
       <height>32</height>
      </rect>
@@ -122,7 +122,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>60</y>
+      <y>350</y>
       <width>121</width>
       <height>32</height>
      </rect>
@@ -135,7 +135,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>70</y>
+      <y>360</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -148,7 +148,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>130</y>
+      <y>420</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -161,7 +161,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>130</y>
+      <y>420</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -170,29 +170,43 @@
      <string>bitwise xor</string>
     </property>
    </widget>
-   <widget class="QLabel" name="display">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>200</y>
-      <width>331</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="console">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>461</y>
-      <width>341</width>
+      <x>0</x>
+      <y>480</y>
+      <width>381</width>
       <height>81</height>
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="open_button">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>450</y>
+      <width>61</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>open</string>
+    </property>
+   </widget>
+   <zorder>console</zorder>
+   <zorder>resize_button</zorder>
+   <zorder>gray_scale_button</zorder>
+   <zorder>adaptive_Threshold_button</zorder>
+   <zorder>LR_reverse_button</zorder>
+   <zorder>canny_button</zorder>
+   <zorder>dilation_closing_button</zorder>
+   <zorder>averaging_blurring_button</zorder>
+   <zorder>gaussian_blurring_button</zorder>
+   <zorder>median_blurring_button</zorder>
+   <zorder>CLAHE_button</zorder>
+   <zorder>sharpen_button</zorder>
+   <zorder>bitwise_xor_button</zorder>
+   <zorder>open_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

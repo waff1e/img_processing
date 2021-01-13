@@ -17,7 +17,7 @@ def resize(img, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     
-    return dst
+    return dst, W, H
 
 
 def gray_scale(img, flag):
