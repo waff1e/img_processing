@@ -3,12 +3,9 @@ import numpy as np
 import os
 
 
-def resize(img, flag):
-
-    src = cv2.imread(img)
-
-    W, H = map(int, input('변경할 이미지의 크기를 입력(예:1920x1080)>>>').split('x'))
-    
+def resize(img, W, H, flag):
+    src = cv2.imread(img) 
+	#W, H = W, H #W, H = map(int, input('변경할 이미지의 크기를 입력(예:1920x1080)>>>').split('x')) 
     dst = cv2.resize(src, dsize=(W,H), interpolation=cv2.INTER_LINEAR)
    
     if flag == 1:
@@ -35,6 +32,7 @@ def gray_scale(img, flag):
 
 def LR_reverse(img, flag):
     src = cv2.imread(img)
+    src = cv2.cvtColor(src, cv2.COLOR_BGR2RGB)
     dst = cv2.flip(src, 1)
 
 
@@ -44,7 +42,7 @@ def LR_reverse(img, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return src
+    return dst
 
 
 def adaptive_Threshold(img, flag):
@@ -93,13 +91,14 @@ def canny_edge(img):
 
 def dilation_closing(img, flag):
 
-    #src = cv2.imread(img)
+    src = cv2.imread(img)
 
     kernel = np.ones((5, 5), np.uint8)
 
-    dilation = cv2.dilate(img, kernel, iterations=1)
+    dilation = cv2.dilate(src, kernel, iterations=1)
 #    closing1 = cv2.morphologyEx(src, cv2.MORPH_CLOSE, kernel)
     closing = cv2.erode(dilation, kernel, iterations=1)
+    closing = cv2.cvtColor(closing, cv2.COLOR_BGR2RGB)
     
     if flag == 1:
         #cv2.imshow('original', src)
@@ -126,6 +125,7 @@ def CLAHE(img, flag):
 def gaussian_blurring(img, flag):
     src = cv2.imread(img)
     blur = cv2.GaussianBlur(src, (5,5), 0)
+    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -138,6 +138,7 @@ def gaussian_blurring(img, flag):
 def averaging_blurring(img, flag):
     src = cv2.imread(img)
     blur = cv2.blur(src, (5,5))
+    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -150,6 +151,7 @@ def averaging_blurring(img, flag):
 def median_blurring(img, flag):
     src = cv2.imread(img)
     blur = cv2.medianBlur(src, 5)
+    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -195,7 +197,7 @@ def bitwise_Xor(img, flag):
     return xor
 
 def main():
-    pass
+    canny_edge('img/sample001.jpg')
 
 if __name__ == "__main__":
     main()
