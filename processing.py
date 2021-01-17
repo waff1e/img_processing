@@ -73,6 +73,7 @@ def canny_edge(img):
 
         if k == 27:
             break
+		
 
         low = cv2.getTrackbarPos('low threshold', 'canny')
         high = cv2.getTrackbarPos('high threshold', 'canny')
@@ -88,6 +89,16 @@ def canny_edge(img):
             cv2.imshow('canny', canny)
 
     cv2.destroyAllWindows()
+
+def canny_edge2(img, low_threshold, high_threshold):
+    src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+
+    low_threshold = low_threshold
+    high_threshold = high_threshold
+
+    canny = cv2.Canny(src, low_threshold, high_threshold)
+
+    return canny
 
 def dilation_closing(img, flag):
 
@@ -173,6 +184,9 @@ def sharpen(img, flag):
 
     dst1 = cv2.filter2D(src, -1, kernel1)
     dst2 = cv2.filter2D(src, -1, kernel2)
+	
+    dst1 = cv2.cvtColor(dst1, cv2.COLOR_BGR2RGB)
+    dst2 = cv2.cvtColor(dst2, cv2.COLOR_BGR2RGB)
 
     if flag == 1:
         cv2.imshow('original', src)
