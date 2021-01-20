@@ -3,8 +3,8 @@ import numpy as np
 import os
 
 
-def resize(img, W, H, flag):
-    src = cv2.imread(img) 
+def resize(src, W, H, flag):
+    #src = cv2.imread(img) 
 	#W, H = W, H #W, H = map(int, input('변경할 이미지의 크기를 입력(예:1920x1080)>>>').split('x')) 
     dst = cv2.resize(src, dsize=(W,H), interpolation=cv2.INTER_LINEAR)
    
@@ -17,12 +17,12 @@ def resize(img, W, H, flag):
     return dst, W, H
 
 
-def gray_scale(img, flag):
-   src = cv2.imread(img)
+def gray_scale(src, flag):
+   #src = cv2.imread(img)
    dst = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
 
    if flag == 1:
-       cv2.imshow('original', src)
+       #cv2.imshow('original', src)
        cv2.imshow('GrayScale', dst)
        cv2.waitKey(0)
        cv2.destroyAllWindows()
@@ -30,8 +30,8 @@ def gray_scale(img, flag):
    return dst
 
 
-def LR_reverse(img, flag):
-    src = cv2.imread(img)
+def LR_reverse(src, flag):
+    #src = cv2.imread(img)
     src = cv2.cvtColor(src, cv2.COLOR_BGR2RGB)
     dst = cv2.flip(src, 1)
 
@@ -45,8 +45,8 @@ def LR_reverse(img, flag):
     return dst
 
 
-def adaptive_Threshold(img, flag):
-    src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+def adaptive_Threshold(src, flag):
+    #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
     dst = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2) 
 
     if flag == 1:
@@ -90,8 +90,8 @@ def canny_edge(img):
 
     cv2.destroyAllWindows()
 
-def canny_edge2(img, low_threshold, high_threshold):
-    src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+def canny_edge2(src, low_threshold, high_threshold):
+    #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
 
     low_threshold = low_threshold
     high_threshold = high_threshold
@@ -100,9 +100,9 @@ def canny_edge2(img, low_threshold, high_threshold):
 
     return canny
 
-def dilation_closing(img, flag):
+def dilation_closing(src, flag):
 
-    src = cv2.imread(img)
+#    src = cv2.imread(img)
 
     kernel = np.ones((5, 5), np.uint8)
 
@@ -119,9 +119,9 @@ def dilation_closing(img, flag):
 
     return closing
 
-def CLAHE(img, flag):
+def CLAHE(src, flag):
 
-    src = gray_scale(img, 0)
+    #src = gray_scale(img, 0)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
     clahe_result = clahe.apply(src)
 
@@ -133,8 +133,8 @@ def CLAHE(img, flag):
     
     return clahe_result
 
-def gaussian_blurring(img, flag):
-    src = cv2.imread(img)
+def gaussian_blurring(src, flag):
+#    src = cv2.imread(img)
     blur = cv2.GaussianBlur(src, (5,5), 0)
     blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
@@ -146,8 +146,8 @@ def gaussian_blurring(img, flag):
 
     return blur
 
-def averaging_blurring(img, flag):
-    src = cv2.imread(img)
+def averaging_blurring(src, flag):
+#    src = cv2.imread(img)
     blur = cv2.blur(src, (5,5))
     blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
@@ -159,8 +159,8 @@ def averaging_blurring(img, flag):
 
     return blur
 
-def median_blurring(img, flag):
-    src = cv2.imread(img)
+def median_blurring(src, flag):
+#    src = cv2.imread(img)
     blur = cv2.medianBlur(src, 5)
     blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
 
@@ -172,8 +172,8 @@ def median_blurring(img, flag):
 
     return blur
 
-def sharpen(img, flag):
-    src = cv2.imread(img)
+def sharpen(src, flag):
+#    src = cv2.imread(img)
     
     kernel1 = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1,]])
     kernel2 = np.array([[-1, -1, -1, -1, -1],
@@ -196,8 +196,10 @@ def sharpen(img, flag):
         
     return dst1
 
-def bitwise_Xor(img, flag):
-    src = gray_scale(img, 0)
+def bitwise_Xor(src, flag):
+    
+    #src = gray_scale(img, 0)
+
     _, binary = cv2.threshold(src, 127, 255, cv2.THRESH_BINARY)
 
     xor = cv2.bitwise_xor(src, binary)
