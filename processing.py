@@ -9,7 +9,8 @@ import os
 def check_Gray(src, isGrayScale):
 
     if not(isGrayScale):
-        src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+        print(f'현재 isGrayScale:{isGrayScale}')
+        src = cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
         isGrayScale = 1
 
     return src, isGrayScale
