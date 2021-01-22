@@ -3,10 +3,34 @@ import numpy as np
 import os
 
 
-def resize(src, W, H, flag):
-    #src = cv2.imread(img) 
-	#W, H = W, H #W, H = map(int, input('변경할 이미지의 크기를 입력(예:1920x1080)>>>').split('x')) 
+
+	# GrayScale 변환 유무 확인 후 변환
+def check_Gray(src, isGrayScale):
+
+    if not(isGrayScale):
+        src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+        isGrayScale = 1
+
+    return src, isGrayScale
+
+
+
+    # RGB변환 유무 확인 후 변환
+def check_Rgb(src, isRGB):
+
+    if not(isRGB):
+        src = cv2.cvtColor(src, cv2.COLOR_BGR2RGB)
+        isRGB = 1
+
+    return src, isRGB
+
+
+
+def resize(src, W, H, flag, isRGB):
+    #src = cv2.imread(img)
+	
     dst = cv2.resize(src, dsize=(W,H), interpolation=cv2.INTER_LINEAR)
+    dst, isRGB = check_Rgb(dst, isRGB)
    
     if flag == 1:
         cv2.imshow('original', src)
@@ -14,27 +38,28 @@ def resize(src, W, H, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     
-    return dst, W, H
+    return dst, isRGB
+
 
 
 def gray_scale(src, flag):
    #src = cv2.imread(img)
-   dst = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+    dst = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)		
 
-   if flag == 1:
+    if flag == 1:
        #cv2.imshow('original', src)
        cv2.imshow('GrayScale', dst)
        cv2.waitKey(0)
        cv2.destroyAllWindows()
    
-   return dst
+    return dst
 
 
-def LR_reverse(src, flag):
-    #src = cv2.imread(img)
-    src = cv2.cvtColor(src, cv2.COLOR_BGR2RGB)
+
+def LR_reverse(src, flag, isRGB):
+
     dst = cv2.flip(src, 1)
-
+    dst, isRGB = check_Rgb(dst, isRGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -42,12 +67,16 @@ def LR_reverse(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return dst
+    return dst, isRGB
 
 
-def adaptive_Threshold(src, flag):
+
+def adaptive_Threshold(src, flag, isGrayScale):
     #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
-    dst = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2) 
+
+    src, isGrayScale = check_Gray(src, isGrayScale)
+
+    dst  = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2) 
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -55,10 +84,14 @@ def adaptive_Threshold(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return dst
+    return dst, isGrayScale
+
+
 
 def onChange(x):
     pass
+
+
 
 def canny_edge(img):
     src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
@@ -90,17 +123,23 @@ def canny_edge(img):
 
     cv2.destroyAllWindows()
 
-def canny_edge2(src, low_threshold, high_threshold):
+
+
+
+def canny_edge2(src, low_threshold, high_threshold, isGrayScale):
     #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
 
     low_threshold = low_threshold
     high_threshold = high_threshold
 
+    src, isGrayScale = check_Gray(src, isGrayScale)
     canny = cv2.Canny(src, low_threshold, high_threshold)
 
-    return canny
+    return canny, isGrayScale
 
-def dilation_closing(src, flag):
+
+
+def dilation_closing(src, flag, isRGB): # isRGB 변수 처리 하기
 
 #    src = cv2.imread(img)
 
@@ -109,19 +148,22 @@ def dilation_closing(src, flag):
     dilation = cv2.dilate(src, kernel, iterations=1)
 #    closing1 = cv2.morphologyEx(src, cv2.MORPH_CLOSE, kernel)
     closing = cv2.erode(dilation, kernel, iterations=1)
-    closing = cv2.cvtColor(closing, cv2.COLOR_BGR2RGB)
-    
+    closing, isRGB = check_Rgb(closing, isRGB)
+
     if flag == 1:
         #cv2.imshow('original', src)
         cv2.imshow('closing', closing)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return closing
+    return closing, isRGB
 
-def CLAHE(src, flag):
+
+
+def CLAHE(src, flag, isGrayScale):
 
     #src = gray_scale(img, 0)
+    src, isGrayScale = check_Gray(src, isGrayScale)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
     clahe_result = clahe.apply(src)
 
@@ -131,12 +173,15 @@ def CLAHE(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     
-    return clahe_result
+    return clahe_result, isGrayScale
 
-def gaussian_blurring(src, flag):
-#    src = cv2.imread(img)
+
+
+	# 가우시안 블러링
+def gaussian_blurring(src, flag, isRGB):
+
     blur = cv2.GaussianBlur(src, (5,5), 0)
-    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
+    blur, isRGB = check_Rgb(blur, isRGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -144,12 +189,15 @@ def gaussian_blurring(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return blur
+    return blur, isRGB
 
-def averaging_blurring(src, flag):
-#    src = cv2.imread(img)
+
+
+	# 평균 블러링
+def averaging_blurring(src, flag, isRGB):
+
     blur = cv2.blur(src, (5,5))
-    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
+    blur, isRGB = check_Rgb(blur, isRGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -157,12 +205,14 @@ def averaging_blurring(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return blur
+    return blur, isRGB
 
-def median_blurring(src, flag):
+
+
+def median_blurring(src, flag, isRGB):
 #    src = cv2.imread(img)
     blur = cv2.medianBlur(src, 5)
-    blur = cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)
+    blur, isRGB = check_Rgb(blur, isRGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -170,9 +220,11 @@ def median_blurring(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return blur
+    return blur, isRGB
 
-def sharpen(src, flag):
+
+
+def sharpen(src, flag, isRGB):
 #    src = cv2.imread(img)
     
     kernel1 = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1,]])
@@ -185,8 +237,7 @@ def sharpen(src, flag):
     dst1 = cv2.filter2D(src, -1, kernel1)
     dst2 = cv2.filter2D(src, -1, kernel2)
 	
-    dst1 = cv2.cvtColor(dst1, cv2.COLOR_BGR2RGB)
-    dst2 = cv2.cvtColor(dst2, cv2.COLOR_BGR2RGB)
+    dst1, isRGB = check_Rgb(dst1, isRGB)
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -194,23 +245,31 @@ def sharpen(src, flag):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         
-    return dst1
+    return dst1, isRGB
 
-def bitwise_Xor(src, flag):
+
+
+def bitwise_Xor(src, flag, isRGB):
     
     #src = gray_scale(img, 0)
 
     _, binary = cv2.threshold(src, 127, 255, cv2.THRESH_BINARY)
 
     xor = cv2.bitwise_xor(src, binary)
-    
+    xor, isRGB = check_Rgb(xor, isRGB)
+
     if flag == 1:
         cv2.imshow('original', src)
         cv2.imshow('XOR', xor)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    return xor
+    return xor, isRGB
+
+
+
+
+
 
 def main():
     canny_edge('img/sample001.jpg')
