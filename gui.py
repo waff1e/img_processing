@@ -12,7 +12,6 @@ form_class = uic.loadUiType("img_processiong.ui")[0]
 
 class WindowClass(QMainWindow, form_class):
 
-
 	def __init__(self):
 	
 		super().__init__()
@@ -30,6 +29,8 @@ class WindowClass(QMainWindow, form_class):
 		self.setupDisplay2()
 
 		self.connectClickBtn()
+
+
 
 
 
@@ -94,6 +95,7 @@ class WindowClass(QMainWindow, form_class):
 			flag = 0
 	
 		return flag		
+
 
 
 	# 파일 불러오기
@@ -171,33 +173,6 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-	# 이미지 사이즈 변경
-	def resizeFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			status = self.showDialog('변경할 가로 크기를 입력하세요.')
-
-			if status:
-				W = self.input_text
-				W = int(W)
-
-		
-				status = self.showDialog('변경할 세로 크기를 입력하세요.')
-
-				if status:
-					H = self.input_text
-					H = int(H)
-
-					self.original_dst, _, _ = resize(self.select_file, W, H, 0)
-					self.original_dst = cv2.cvtColor(self.original_dst, cv2.COLOR_BGR2RGB)
-					self.convertToPixmap(self.original_dst)
-					
-					self.console.append(f'사진의 크기가 {W}x{H}로 변경되었습니다.')
-		else:
-			pass
-
-
-
 	# 이미지 사이즈 변경(Test)
 	def resizeFunc_TEST(self):
 
@@ -246,19 +221,6 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-	# GrayScale 변환
-	def grayScaleFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = gray_scale(self.select_file, 0)
-			self.dst_backup = self.original_dst
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Grayscale 적용 완료')
-		else:
-			pass
-
-
-
 	# GarayScale 변환(Test)
 	def grayScaleFunc_TEST(self): # 2번 적용 불가 
 
@@ -276,18 +238,6 @@ class WindowClass(QMainWindow, form_class):
 	
 
 
-    # 좌우반전
-	def	lrReverseFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = LR_reverse(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)	
-			self.console.append('좌우반전 적용 완료')
-		else:
-			pass
-
-
-
 	# 좌우반전(Test)
 	def	lrReverseFunc_TEST(self): # 2번 적용 허용
 
@@ -299,18 +249,6 @@ class WindowClass(QMainWindow, form_class):
 				self.console.append('좌우반전 적용 완료')
 			else:
 				pass	
-
-
-
-	# Adaptive Threshold	
-	def adaptiveThresholdFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = adaptive_Threshold(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)	
-			self.console.append('Adaptive threshold 적용 완료')
-		else:
-			pass
 
 
 
@@ -326,39 +264,6 @@ class WindowClass(QMainWindow, form_class):
 		else:
 			pass
 	
-
-
-	# Canny
-	def cannyFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			status = self.showDialog('Low_Threshold 값을 입력해 주세요(0~255)')
-			if status:
-				low_threshold = self.input_text
-				low_threshold = int(low_threshold)
-				
-				if 0 <= low_threshold <= 255:
-
-					status = self.showDialog('High_Threshold 값을 입력해 주세요(0~255)')
-
-					if status:
-						high_threshold = self.input_text
-						high_threshold = int(high_threshold)
-
-						if 0 <= high_threshold <= 255:
-
-							if low_threshold >= high_threshold:
-								warringWindow = QMessageBox.information(self, 'warring', 'Low Threshold값이 High_Threshold값 보다 작아야 합니다.', QMessageBox.Yes)
-
-								if warringWindow == QMessageBox.Yes:
-									pass
-
-							else:
-								self.original_dst = canny_edge2(self.select_file, low_threshold, high_threshold)
-								self.convertToPixmap(self.original_dst)
-								self.console.append('Canny 적용 완료')
-		else:
-			pass
 
 
     # canny(Test)
@@ -423,18 +328,6 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-    # Dilation and Closing
-	def dilationClosingFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = dilation_closing(self.select_file, 0)	
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Dilation Closing 적용 완료')
-		else:
-			pass
-
-
-
     # Dilation and Closing(Test)
 	def dilationClosingFunc_TEST(self):
 
@@ -446,18 +339,6 @@ class WindowClass(QMainWindow, form_class):
 				self.console.append('Dilation Closing 적용 완료')
 			else:
 				pass
-
-
-
-    # CLAHE
-	def ClaheFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = CLAHE(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('CLAHE 적용 완료')
-		else:
-			pass
 
 
 
@@ -476,18 +357,6 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-    # Median Blurring
-	def medianBlurringFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = median_blurring(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Median blurring 적용 완료')
-		else:
-			pass
-	
-
-
 	# Median Blurring(Test)
 	def medianBlurringFunc_TEST(self):
 
@@ -502,18 +371,6 @@ class WindowClass(QMainWindow, form_class):
 	
 
 
-	# Gaussian Blurring
-	def gaussianBlurringFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = gaussian_blurring(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Gaussian blurring 적용 완료')
-		else:
-			pass
-
-
-
     # Gaussian Blurring(Test)
 	def gaussianBlurringFunc_TEST(self):
 
@@ -523,17 +380,6 @@ class WindowClass(QMainWindow, form_class):
 			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Gaussian blurring 적용 완료')
-		else:
-			pass
-
-
-
-    # Averaging Blurring
-	def averagingBlurringFunc(self):
-		if self.select_file != 'img/empty.png':
-			self.original_dst = averaging_blurring(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Averaging blurring 적용 완료')
 		else:
 			pass
 
@@ -551,20 +397,8 @@ class WindowClass(QMainWindow, form_class):
 		else:
 			pass
 
-
-
-    # bitwise XOR
-	def bitwiseXorFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = bitwise_Xor(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Bitwise XOR 적용 완료')
-		else:
-			pass
 	
 	
-
 	# bitwise XOR(Test)
 	def bitwiseXorFunc_TEST(self):
 
@@ -579,18 +413,6 @@ class WindowClass(QMainWindow, form_class):
 
 
 
-    # Sharpen
-	def sharpenFunc(self):
-
-		if self.select_file != 'img/empty.png':
-			self.original_dst = sharpen(self.select_file, 0)
-			self.convertToPixmap(self.original_dst)
-			self.console.append('Sharpen 적용 완료')
-		else:
-			pass
-    
-
-
 	# Sharpen
 	def sharpenFunc_TEST(self):
 
@@ -602,6 +424,9 @@ class WindowClass(QMainWindow, form_class):
 			self.console.append('Sharpen 적용 완료')
 		else:
 			pass
+
+
+
 
 
 

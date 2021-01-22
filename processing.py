@@ -4,6 +4,7 @@ import os
 
 
 
+
 	# GrayScale 변환 유무 확인 후 변환
 def check_Gray(src, isGrayScale):
 
@@ -27,7 +28,6 @@ def check_Rgb(src, isRGB):
 
 
 def resize(src, W, H, flag, isRGB):
-    #src = cv2.imread(img)
 	
     dst = cv2.resize(src, dsize=(W,H), interpolation=cv2.INTER_LINEAR)
     dst, isRGB = check_Rgb(dst, isRGB)
@@ -43,7 +43,7 @@ def resize(src, W, H, flag, isRGB):
 
 
 def gray_scale(src, flag):
-   #src = cv2.imread(img)
+
     dst = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)		
 
     if flag == 1:
@@ -72,7 +72,6 @@ def LR_reverse(src, flag, isRGB):
 
 
 def adaptive_Threshold(src, flag, isGrayScale):
-    #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
 
     src, isGrayScale = check_Gray(src, isGrayScale)
 
@@ -127,7 +126,6 @@ def canny_edge(img):
 
 
 def canny_edge2(src, low_threshold, high_threshold, isGrayScale):
-    #src = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
 
     low_threshold = low_threshold
     high_threshold = high_threshold
@@ -140,8 +138,6 @@ def canny_edge2(src, low_threshold, high_threshold, isGrayScale):
 
 
 def dilation_closing(src, flag, isRGB): # isRGB 변수 처리 하기
-
-#    src = cv2.imread(img)
 
     kernel = np.ones((5, 5), np.uint8)
 
@@ -162,7 +158,6 @@ def dilation_closing(src, flag, isRGB): # isRGB 변수 처리 하기
 
 def CLAHE(src, flag, isGrayScale):
 
-    #src = gray_scale(img, 0)
     src, isGrayScale = check_Gray(src, isGrayScale)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
     clahe_result = clahe.apply(src)
@@ -210,7 +205,7 @@ def averaging_blurring(src, flag, isRGB):
 
 
 def median_blurring(src, flag, isRGB):
-#    src = cv2.imread(img)
+
     blur = cv2.medianBlur(src, 5)
     blur, isRGB = check_Rgb(blur, isRGB)
 
@@ -225,7 +220,6 @@ def median_blurring(src, flag, isRGB):
 
 
 def sharpen(src, flag, isRGB):
-#    src = cv2.imread(img)
     
     kernel1 = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1,]])
     kernel2 = np.array([[-1, -1, -1, -1, -1],
@@ -250,8 +244,6 @@ def sharpen(src, flag, isRGB):
 
 
 def bitwise_Xor(src, flag, isRGB):
-    
-    #src = gray_scale(img, 0)
 
     _, binary = cv2.threshold(src, 127, 255, cv2.THRESH_BINARY)
 
@@ -271,8 +263,10 @@ def bitwise_Xor(src, flag, isRGB):
 
 
 
+
+
 def main():
-    canny_edge('img/sample001.jpg')
+    pass
 
 if __name__ == "__main__":
     main()
