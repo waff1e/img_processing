@@ -111,6 +111,7 @@ class WindowClass(QMainWindow, form_class):
 			self.select_file = fileName
 			self.readImg = cv2.imread(self.select_file)
 			
+			self.checkChannel()
 
 				
 			self.isRGB = 0
@@ -225,7 +226,9 @@ class WindowClass(QMainWindow, form_class):
 
 			if self.select_file != 'img/empty.png':
 				if not(self.isGrayScale == 1):
+					self.checkChannel('전')
 					self.readImg = gray_scale(self.readImg, 0)
+					self.checkChannel('후')
 
 					self.isGrayScale = 1
 					self.convertToPixmap(self.readImg)
@@ -239,7 +242,9 @@ class WindowClass(QMainWindow, form_class):
 	def	lrReverseFunc(self):
 
 			if self.select_file != 'img/empty.png':
+				self.checkChannel('전')
 				self.readImg, self.isRGB = LR_reverse(self.readImg, 0, self.isRGB)
+				self.checkChannel('후')
 				self.convertToPixmap(self.readImg)	
 				self.console.append('좌우반전 적용 완료')
 			else:
@@ -249,7 +254,9 @@ class WindowClass(QMainWindow, form_class):
 	# Adaptive Threshold
 	def adaptiveThresholdFunc(self):
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isGrayScale = adaptive_Threshold(self.readImg, 0, self.isGrayScale)
+			self.checkChannel('후')
 			
 			self.convertToPixmap(self.readImg)	
 			self.console.append('Adaptive threshold 적용 완료')
@@ -310,7 +317,9 @@ class WindowClass(QMainWindow, form_class):
 							pass
 
 					else:
+						self.checkChannel('전')
 						self.readImg, self.isGrayScale = canny_edge2(self.readImg, low_threshold, high_threshold, self.isGrayScale)
+						self.checkChannel('후')
 						self.convertToPixmap(self.readImg)
 						self.console.append('Canny 적용 완료')
 		else:
@@ -322,7 +331,9 @@ class WindowClass(QMainWindow, form_class):
 	def dilationClosingFunc(self):
 
 			if self.select_file != 'img/empty.png':
+				self.checkChannel('전')
 				self.readImg, self.isRGB = dilation_closing(self.readImg, 0, self.isRGB)	
+				self.checkChannel('후')
 				self.convertToPixmap(self.readImg)
 				self.console.append('Dilation Closing 적용 완료')
 			else:
@@ -333,8 +344,10 @@ class WindowClass(QMainWindow, form_class):
     # CLAHE
 	def ClaheFunc(self):
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			
 			self.readImg, self.isGrayScale = CLAHE(self.readImg, 0, self.isGrayScale)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('CLAHE 적용 완료')
 		else:
@@ -346,7 +359,9 @@ class WindowClass(QMainWindow, form_class):
 	def medianBlurringFunc(self):
 
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isRGB = median_blurring(self.readImg, 0, self.isRGB)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Median blurring 적용 완료')
 		else:
@@ -358,7 +373,9 @@ class WindowClass(QMainWindow, form_class):
 	def gaussianBlurringFunc(self):
 
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isRGB = gaussian_blurring(self.readImg, 0, self.isRGB)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Gaussian blurring 적용 완료')
 		else:
@@ -370,7 +387,9 @@ class WindowClass(QMainWindow, form_class):
 	def averagingBlurringFunc(self):
 
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isRGB= averaging_blurring(self.readImg, 0, self.isRGB)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Averaging blurring 적용 완료')
 		else:
@@ -382,7 +401,9 @@ class WindowClass(QMainWindow, form_class):
 	def bitwiseXorFunc(self):
 
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isRGB = bitwise_Xor(self.readImg, 0, self.isRGB)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Bitwise XOR 적용 완료')
 		else:
@@ -394,7 +415,9 @@ class WindowClass(QMainWindow, form_class):
 	def sharpenFunc(self):
 
 		if self.select_file != 'img/empty.png':
+			self.checkChannel('전')
 			self.readImg, self.isRGB = sharpen(self.readImg, 0, self.isRGB)
+			self.checkChannel('후')
 			self.convertToPixmap(self.readImg)
 			self.console.append('Sharpen 적용 완료')
 		else:

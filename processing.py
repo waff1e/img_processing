@@ -7,9 +7,7 @@ import os
 
 	# GrayScale 변환 유무 확인 후 변환
 def check_Gray(src, isGrayScale):
-
     if not(isGrayScale):
-        print(f'현재 isGrayScale:{isGrayScale}')
         src = cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
         isGrayScale = 1
 
@@ -75,8 +73,15 @@ def LR_reverse(src, flag, isRGB):
 def adaptive_Threshold(src, flag, isGrayScale):
 
     src, isGrayScale = check_Gray(src, isGrayScale)
+	
+    try:
+        dst  = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2) 
+    except:
+        src = cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
+        dst  = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+		
+        return dst, isGrayScale
 
-    dst  = cv2.adaptiveThreshold(src, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2) 
 
     if flag == 1:
         cv2.imshow('original', src)
@@ -138,13 +143,14 @@ def canny_edge2(src, low_threshold, high_threshold, isGrayScale):
 
 
 
-def dilation_closing(src, flag, isRGB): # isRGB 변수 처리 하기
+def dilation_closing(src, flag, isRGB): 
 
     kernel = np.ones((5, 5), np.uint8)
 
     dilation = cv2.dilate(src, kernel, iterations=1)
 #    closing1 = cv2.morphologyEx(src, cv2.MORPH_CLOSE, kernel)
     closing = cv2.erode(dilation, kernel, iterations=1)
+    	
     closing, isRGB = check_Rgb(closing, isRGB)
 
     if flag == 1:
@@ -161,7 +167,14 @@ def CLAHE(src, flag, isGrayScale):
 
     src, isGrayScale = check_Gray(src, isGrayScale)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-    clahe_result = clahe.apply(src)
+    try:
+        clahe_result = clahe.apply(src)
+    
+    except:
+        cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
+        clahe_result = clahe.apply(src)
+        
+        return clahe_result, isGrayScale
 
     if flag == 1:
         cv2.imshow('original', src)
