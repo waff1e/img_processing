@@ -171,7 +171,7 @@ def CLAHE(src, flag, isGrayScale):
         clahe_result = clahe.apply(src)
     
     except:
-        cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
+        src = cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
         clahe_result = clahe.apply(src)
         
         return clahe_result, isGrayScale

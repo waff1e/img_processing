@@ -113,7 +113,7 @@ class WindowClass(QMainWindow, form_class):
 			
 
 				
-			self.isRGB = 0
+			self.isRGB = 0 
 			self.isGrayScale = 0
 			print(self.select_file)
 			self.qPixmapVar1.load(self.select_file)
@@ -207,17 +207,13 @@ class WindowClass(QMainWindow, form_class):
 				else:
 					return
 
-				self.checkChannel('전')
 				self.readImg, self.isRGB = resize(self.readImg, W, H, 0, self.isRGB)
-				self.checkChannel('후')
-				#self.readImg = cv2.cvtColor(self.readImg, cv2.COLOR_BGR2RGB)
 				self.convertToPixmap(self.readImg)
 				
 				self.console.append(f'사진의 크기가 {W}x{H}로 변경되었습니다.')
 
 			else:
 				pass
-
 
 
 	# GarayScale 변환
