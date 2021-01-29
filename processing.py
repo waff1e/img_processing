@@ -70,7 +70,7 @@ def LR_reverse(src, flag, isRGB):
 
 
 
-def adaptive_Threshold(src, flag, isGrayScale):
+def adaptive_Threshold(src, flag, isGrayScale=0):
 
     src, isGrayScale = check_Gray(src, isGrayScale)
 	
@@ -220,7 +220,7 @@ def averaging_blurring(src, flag, isRGB):
 
 def median_blurring(src, flag, isRGB):
 
-    blur = cv2.medianBlur(src, 5)
+    blur = cv2.medianBlur(src, 19)
     blur, isRGB = check_Rgb(blur, isRGB)
 
     if flag == 1:
